@@ -1,0 +1,95 @@
+CREATE ROLE [username] WITH LOGIN;
+CREATE SCHEMA AUTHORIZATION [username];
+--
+Why do we want a database?
+Because you can't effectively manage large amounts of data in e.g. a spreadsheet:
+- error-prone
+- duplicate data
+- data gets out of sync
+--
+useful \[x] commands:
+\l = list databases
+\d = list tables
+\d [table_name] describes a table...we'll look at this in a minute.
+\q = exit
+\s = history
+\e = editor!
+\x - expanded output
+--
+Instance (Server/Cluster) vs Database vs Schema
+--
+on the CREATE TABLE slide:
+talk about datatypes.
+--
+JOINs
+A database is kind of useless if we can't combine the tables.
+Example:
+We want to find out how many of each items we have in stock.
+We could:
+SELECT * FROM item;
+SELECT * FROM stock;
+...and match things up ourselves.
+
+That's a PITA.  Let's let the database do what the database is good at.
+
+First, though, we need to talk about different kinds of joins.
+
+But before we do that, we need to talk about PRIMARY KEYS and FOREIGN KEYS, because this is how the database knows how you want it to connect things.  (IOW, JOIN the tables.)
+
+PRIMARY vs FOREIGN keys:
+Primary key:  uniquely identifies a tuple.
+Foreign key:  links back to a primary key in another table.
+This enables us to do JOINs.
+
+So, back to JOINs.
+(need a drawing, or to draw on the whiteboard.)
+(Lay out two sample tables, and show the result set.)
+
+JOINs:
+INNER:
+For every row in T1, any row in T2 that matches = OUTPUT.
+
+OUTER:  LEFT & RIGHT are assumed to be OUTER. :)
+LEFT:
+For every row in T1, you get a row of output with values from T2 where they exist, and nothing where they do not.
+
+RIGHT.
+For every row in T2, you get a row of output with values from T1 where they exist, and nothing where they do not.
+
+And CARTESIAN (CROSS).
+--
+subSELECTs
+Your query output can be treated like another table - you can query it too :)
+Deconstruct these from the inside out - demo.
+Go back to "we could do these in two pieces, but that's a PITA, so again, let's let the database do what the database is good at.
+--
+VIEWs vs TEMP TABLEs
+
+Why do we want them?  Well, maybe writing these JOINs is getting to be a drag.  The output looks like a table, so why can't we just make a table from it?  We can!
+You can use these to limit what your users see.  e.g., say we don't want the stock guy accessing the customer addresses, we'd create a view just for him that just showed their names.
+
+VIEWs last even if you log out.
+they also run the query you used to generate them each time you access them.
+shows the data of the underlying table - you can update a view, but you have to set that up specifically.
+
+TEMP TABLEs
+don't persist - you end your session (or get kicked out!) and it's GONE.
+BUT, you can futz with the data in them.
+--
+natural vs surrogate keys.
+
+Notice that in the practice database, eg. the item table, there is an "item_id" field.
+Notice also that the description is unique.  So why don't we just use that?
+
+This is another one of those religious discussions.  There are pros & cons to both;  you get to decide what you want to use.
+Advantages of a surrogate key:
+- the database will automatically apply it.  (serial datatype)
+- can use an integer as a primary key (this is more efficient for searching)
+- can be a single field (sometimes if you're using natural keys, you may need two fields (cf the customer table, fname + lastname)
+
+Disadvantages:
+- it's "extra data"
+- doesn't have any real meaning
+- have an extra index just for joins;  this field won't ever be searched on.
+
+--

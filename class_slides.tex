@@ -1,0 +1,569 @@
+\documentclass[20pt]{beamer}
+
+\usepackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5]{beamerposter}
+
+\usetheme{postgres}
+\setbeamertemplate{items}[circle]
+
+\title{Introduction to Databases with PostgreSQL}
+\author{Gabrielle Roth}
+\institute{PDXPUG \& FreeGeek}
+\date{Feb 1, 2011}
+
+\begin{document}
+
+\frame{
+    \titlepage
+}
+
+\setbeamertemplate{footline}[postgres body]
+
+\frame
+{
+    \frametitle{Outline}
+    \begin{itemize}
+    \item[] Intro to Databases (discussion)
+    \item[] PostgreSQL (discussion)
+    \item[] psql (hands-on)
+    \item[] SQL (hands-on)
+    \item[] ...break somewhere in here, 7:30...
+    \item[] Practice db + more SQL (hands-on)
+    \item[] Basic Admin + GUI Tools (discussion)
+    \item[] Questions
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+  \frametitle{Introductions}
+
+  \begin{verbatim}
+          __     __
+         /  \~~~/  \  . o O ( Hi! )
+   ,----(     oo    )
+  /      \__     __/
+ /|         (\  |(
+^ \   /___\  /\ |
+   |__|   |__|-"
+  \end{verbatim}
+  \tiny
+  \begin{center}
+  Thanks to Hayley J Wakenshaw for the Elephant
+  \end{center}
+}
+
+\frame
+{
+    \frametitle{Databases!}
+    \begin{center}
+    What is it?\\
+    Why do I want one?
+    \end{center}
+}
+
+\frame
+{
+    \frametitle{Relational databases}
+    \begin{itemize}
+    \item[] Based on Relational Calculus
+    \item[] Data is stored in "relations"
+    \item[] "Normalized"
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{PostgreSQL}
+    \begin{itemize}
+    \item[-] How do you say that?
+    \item[-] It's the database *server*
+    \item[-] We think it's the best.
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{Get connected.}
+    \begin{verbatim}
+chmod 600 /path/to/id_pdxpug
+ssh -i /path/to/id_pdxpug pdxpug@207.173.203.228
+psql -U [username] -d pdxpug
+    \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{Pg command-line interface}
+    \begin{itemize}
+    \item[-] psql
+    \item[-] - -help
+    \item[-] psql -U [username] -d pdxpug
+    \item[-] \textbackslash h
+    \item[-] \textbackslash ?
+    \item[-] other useful \textbackslash commands
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+  \frametitle{This looks like a good place to talk about...}
+
+  \begin{verbatim}
+          __     __
+         /  \~~~/  \  . o O ( Schemas! )
+   ,----(     oo    )
+  /      \__     __/
+ /|         (\  |(
+^ \   /___\  /\ |
+   |__|   |__|-"
+  \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{SQL}
+    \begin{itemize}
+    \item[-] Declarative programming language
+    \item[-] ...let's do "Hello World".
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{Hello, World.}
+    \begin{verbatim}
+SELECT 'Hello, World.';
+    \end{verbatim}
+    ...oh yeah, and there's command-completion, too.
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{CREATE TABLE}
+    \begin{verbatim}
+CREATE TABLE animals
+(name varchar(32) primary key,
+skin varchar(32),
+legs int);
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{INSERT}
+    \begin{verbatim}
+INSERT INTO animals
+VALUES ('cat', 'fur', '4');
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{multi-valued INSERT}
+    \begin{verbatim}
+insert into animals
+values
+('dog', 'fur', '4'),
+('bird', 'feathers', '2'),
+('snake', 'scales', '0');
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{SELECT}
+    \begin{verbatim}
+SELECT * FROM animals;
+
+SELECT name, legs FROM animals;
+
+SELECT * FROM animals
+ORDER BY name;
+
+SELECT count(*) FROM animals;
+
+SELECT SUM(legs) FROM animals;
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{UPDATE}
+    \begin{verbatim}
+UPDATE animals
+SET name = 'kitty' WHERE name = 'cat';
+
+SELECT * FROM animals;
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{Transactions}
+    \begin{verbatim}
+BEGIN;
+...your stuff...
+...check your stuff with a SELECT...
+ROLLBACK or COMMIT as desired
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{DELETE}
+    \begin{verbatim}
+BEGIN;
+DELETE FROM animals WHERE legs=2;
+SELECT * FROM animals;
+[ROLLBACK or COMMIT]
+SELECT * FROM animals;
+    \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{Exercises}
+    \begin{itemize}
+    \item[-] add an animal of your choice
+    \item[-] update its name
+    \item[-] delete all animals with four legs
+    \end{itemize}
+}
+
+\frame
+{
+    \begin{center}
+    MOAR TABLEZ\\
+    www.postgresqlguide.com/postgresql-sample-database.aspx
+    \end{center}
+}
+
+\frame
+{
+    \frametitle{ERDs}
+    \begin{itemize}
+    \item[-] Entity-Relationship Diagrams
+    \item[-] Graphical representation of the relations
+    \item[-] ...and how they're connected (JOINed)
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+  \begin{verbatim}
+          __     __
+         /  \~~~/  \  . o O ( Let's look at one. )
+   ,----(     oo    )
+  /      \__     __/
+ /|         (\  |(
+^ \   /___\  /\ |
+   |__|   |__|-"
+  \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{Load 'er up!}
+    \begin{verbatim}
+\i /home/pdxpug/create_tables.sql
+\i /home/pdxpug/populate_tables.sql
+    \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{Working with the sample db}
+    \begin{itemize}
+    \item[-] \textbackslash d 
+    \item[-] what are these \_seq relations?
+    \item[-] \textbackslash d item
+    \item[-] \textbackslash s
+    \item[-] \textbackslash e
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{DISTINCT}
+    \begin{verbatim}
+SELECT fname, lname FROM customer
+
+SELECT count(lname) FROM customer;
+
+SELECT DISTINCT lname FROM customer;
+
+SELECT count(DISTINCT(lname)) FROM customer;
+    \end{verbatim}
+}
+
+\frame
+{
+    \begin{itemize}
+    \item[-] JOINs
+    \item[-] PRIMARY keys
+    \item[-] FOREIGN keys
+    \end{itemize}
+}
+
+\frame
+{
+    \begin{center}
+    We need an illustration here:\\
+    INNER vs LEFT vs RIGHT vs CARTESIAN
+    \end{center}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{JOINs}
+    Note:  make the join example simpler next time.
+    Compare:
+    \begin{verbatim}
+SELECT * FROM item;
+SELECT * FROM stock;
+    \end{verbatim}
+
+    With:
+    \begin{verbatim}
+SELECT i.description, i.cost_price, i.sell_price, s.quantity
+FROM item i
+JOIN stock s ON i.item_id = s.item_id;
+    \end{verbatim}
+
+    And:
+    \begin{verbatim}
+SELECT i.description, i.cost_price, i.sell_price, s.quantity
+FROM item i
+LEFT JOIN stock s ON i.item_id = s.item_id;
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \begin{verbatim}
+    \pset null '[null]'
+    \end{verbatim}
+    \begin{center}
+    makes the differences more obvious.
+    \end{center}
+}
+
+\frame[containsverbatim]
+{
+    Compare:
+    \begin{verbatim}
+SELECT i.description, i.cost_price, i.sell_price, s.quantity
+FROM item i
+RIGHT JOIN stock s ON i.item_id = s.item_id;
+    \end{verbatim}
+
+    With:
+    \begin{verbatim}
+SELECT i.description, i.cost_price, i.sell_price, s.quantity
+FROM stock s
+LEFT JOIN item i ON i.item_id = s.item_id;
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{...and now the dreaded Cartesian JOIN}
+    \begin{verbatim}
+SELECT * FROM item;
+SELECT * FROM stock;
+
+SELECT i.description, i.cost_price, i.sell_price, s.quantity
+FROM item i, stock s;
+
+SELECT i.description, i.cost_price, i.sell_price, s.quantity
+FROM item i
+CROSS JOIN stock s;
+    \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{Building more complex queries}
+    \begin{itemize}
+    \item[-] with subSELECTs
+    \item[-] using VIEWs and TEMP TABLEs
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{subSELECTs}
+    \begin{verbatim}
+SELECT date_placed FROM orderinfo
+WHERE customer_id IN
+    (SELECT customer_id FROM customer
+    WHERE lname = 'Matthew');
+
+SELECT date_placed FROM orderinfo
+WHERE customer_id IN
+(SELECT customer_id FROM customer
+WHERE (fname, lname) = ('Alex','Matthew'));
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{VIEWs and TEMP TABLEs}
+    \begin{verbatim}
+CREATE VIEW my_view AS SELECT field FROM table;
+vs.
+CREATE TEMP TABLE my_temp_table AS SELECT field FROM table;
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{VIEWs and TEMP TABLEs}
+    \begin{verbatim}
+CREATE VIEW view_in_stock AS
+SELECT i.item_id, i.description, s.quantity
+FROM item i
+LEFT JOIN stock s ON i.item_id=s.item_id;
+
+SELECT * FROM view_in_stock;
+
+try:
+\pset null '0'
+    \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{Exercises}
+    TODO Beamer:  Why isn't enumerate working?
+    \begin{enumerate}
+    \small
+    \item[1] How many items are currently in stock?
+    \item[2] In which towns do we have customers?
+    \item[3] Experiment with RIGHT JOIN with the original sample queries.
+    \item[4] What are the barcodes for each item?
+    \item[5] What is the name + total "our cost" value of each item currently in stock?
+    \item[6] What is the name + total "selling cost" value of each item currently in stock?
+    \item[7] What are the total "our cost" and "sell cost" values of all items in stock?
+    \item[8] How much was shipping on each order?
+    \item[9] What items were ordered by people with the last name "Stones"?
+    \item[10] How much was the total shipping per person?
+    \end{enumerate}
+}
+
+\frame
+{
+    \frametitle{Basic Admin}
+    \begin{itemize}
+    \item[-] initdb
+    \item[-] PGDATA
+    \item[-] postgresql.conf
+    \item[-] pg\_hba.conf
+    \item[-] stop/start/restart/reload
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Basic Admin}
+    \begin{itemize}
+    \item[-] SELECT version();
+    \item[-] CREATE ROLE
+    \item[-] backups and upgrades
+        \begin{itemize}
+        \item[-] pg\_dump, pg\_dumpall, pg\_upgrade
+        \item[-] ...or replication
+        \end{itemize}
+    \item[-] logs 
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{GUI Tools}
+    \begin{itemize}
+    \item[-] pHpPgAdmin
+    \item[-] pgAdminIII
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{Extras}
+    \begin{itemize}
+    \item[-] Natural keys vs Surrogate keys
+    \item[-] Indexes
+    \item[-] even more \textbackslash  commands
+    \end{itemize}
+    \begin{verbatim}
+GRANT USAGE ON SCHEMA [schema] TO [otheruser];
+GRANT SELECT ON [table] TO [otheruser];
+    \end{verbatim}
+}
+
+\frame[containsverbatim]
+{
+    \frametitle{Book giveaway!}
+    \begin{verbatim}
+SELECT (random() * 100);
+    \end{verbatim}
+}
+
+\frame
+{
+    \frametitle{Where to get help}
+    \begin{itemize}
+    \item[-] Postgres Community
+        \begin{itemize}
+        \item[-] www.postgresql.org/community/lists/
+        \item[-] archives.postgresql.org/pgsql-novice/
+        \item[-] \#postgresql
+        \end{itemize}
+    \item[-] PDXPUG
+        \begin{itemize}
+            \item[-] \#pdxpug
+            \item[-] archives.postgresql.org/pdxpug/
+        \end{itemize}
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{PDXPUG}
+    \begin{itemize}
+    \item[] Third Thurs, 7pm, FreeGeek
+    \item[] pugs.postgresql.org/pdx
+    \item[] @pdxpug
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Reading List}
+    \begin{itemize}
+    \item[] \underline{Manga Guide to Databases} Takahashi, M
+    \item[] \underline{Database Design for Mere Mortals} Hernandez, M J
+    \item[] \underline{SQL for Smarties} Celko, J
+    \item[] \underline{Introduction to Database Systems} Date, CJ
+    \item[] \underline{Relational Model for Database Management} Codd, EF
+    \item[] www.postgresql.org/docs
+    \item[] \underline{PostgreSQL 9 Admin Cookbook} Riggs, S \& H Krosing
+    \item[] \underline{PostgreSQL 9.0 High Performance} Smith, G
+    \end{itemize}
+}
+
+\frame[containsverbatim]
+{
+  \begin{verbatim}
+          __     __
+         /  \~~~/  \  . o O ( Thank you! )
+   ,----(     oo    )
+  /      \__     __/
+ /|         (\  |(
+^ \   /___\  /\ |
+   |__|   |__|-"
+  \end{verbatim}
+
+}
+
+\end{document}
