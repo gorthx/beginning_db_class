@@ -154,6 +154,18 @@ legs int);
     \begin{verbatim}
 INSERT INTO animals
 VALUES ('cat', 'fur', '4');
+
+SELECT * FROM animals;
+    \end{verbatim}
+    ...and a word about syntax...
+}
+
+{
+    \frametitle{What happens if...}
+    \begin{verbatim}
+INSERT INTO animals
+VALUES
+('centipede', 'chitin', 'too many');
     \end{verbatim}
 }
 
@@ -161,10 +173,11 @@ VALUES ('cat', 'fur', '4');
 {
     \frametitle{multi-valued INSERT}
     \begin{verbatim}
-insert into animals
-values
+INSERT INTO animals
+VALUES
 ('dog', 'fur', '4'),
 ('bird', 'feathers', '2'),
+('centipede', 'chitin', '100'),
 ('snake', 'scales', '0');
     \end{verbatim}
 }
@@ -176,9 +189,10 @@ values
 SELECT * FROM animals;
 
 SELECT name, legs FROM animals;
-
-SELECT * FROM animals
 ORDER BY name;
+
+SELECT name, legs FROM animals;
+ORDER BY legs DESC;
 
 SELECT count(*) FROM animals;
 
@@ -199,10 +213,21 @@ SELECT * FROM animals;
 
 \frame[containsverbatim]
 {
+    \frametitle{What happens if...}
+    \begin{verbatim}
+UPDATE animals
+SET legs = 18;
+
+SELECT * FROM animals;
+    \end{verbatim}
+    ...oops!
+}
+\frame[containsverbatim]
+{
     \frametitle{Transactions}
     \begin{verbatim}
 BEGIN;
-...your stuff...
+...do your stuff...
 ...check your stuff with a SELECT...
 ROLLBACK or COMMIT as desired
     \end{verbatim}
@@ -298,6 +323,7 @@ SELECT count(DISTINCT(lname)) FROM customer;
 
 \frame
 {
+    \frametitle{Feel the Power}
     \begin{itemize}
     \item[-] JOINs
     \item[-] PRIMARY keys
@@ -308,7 +334,7 @@ SELECT count(DISTINCT(lname)) FROM customer;
 \frame
 {
     \begin{center}
-    We need an illustration here:\\
+    TODO: We need an illustration here:\\
     INNER vs LEFT vs RIGHT vs CARTESIAN
     \end{center}
 }
@@ -316,7 +342,7 @@ SELECT count(DISTINCT(lname)) FROM customer;
 \frame[containsverbatim]
 {
     \frametitle{JOINs}
-    Note:  make the join example simpler next time.
+    TODO:  make the join example simpler next time.
     Compare:
     \begin{verbatim}
 SELECT * FROM item;
@@ -474,6 +500,7 @@ try:
         \item[-] ...or replication
         \end{itemize}
     \item[-] logs 
+    \item[-] TODO:  Memory calculation?  (Selena)
     \end{itemize}
 }
 
@@ -493,6 +520,7 @@ try:
     \item[-] Natural keys vs Surrogate keys
     \item[-] Indexes
     \item[-] even more \textbackslash  commands
+    \item[-] permissions
     \end{itemize}
     \begin{verbatim}
 GRANT USAGE ON SCHEMA [schema] TO [otheruser];
@@ -502,7 +530,7 @@ GRANT SELECT ON [table] TO [otheruser];
 
 \frame[containsverbatim]
 {
-    \frametitle{Book giveaway!}
+    \frametitle{Book giveaway! Thank you, O'Reilly!}
     \begin{verbatim}
 SELECT (random() * 100);
     \end{verbatim}
