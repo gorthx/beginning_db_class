@@ -160,6 +160,7 @@ SELECT * FROM animals;
     ...and a word about syntax...
 }
 
+\frame[containsverbatim]
 {
     \frametitle{What happens if...}
     \begin{verbatim}
@@ -175,10 +176,10 @@ VALUES
     \begin{verbatim}
 INSERT INTO animals
 VALUES
-('dog', 'fur', '4'),
-('bird', 'feathers', '2'),
-('centipede', 'chitin', '100'),
-('snake', 'scales', '0');
+('dog', 'fur', 4),
+('bird', 'feathers', 2),
+('centipede', 'chitin', 100),
+('snake', 'scales', 0);
     \end{verbatim}
 }
 
@@ -331,61 +332,56 @@ SELECT count(DISTINCT(lname)) FROM customer;
     \end{itemize}
 }
 
+\frame[containsverbatim]
+{
+    \frametitle{Why we need JOINs}
+    \begin{verbatim}
+SELECT * FROM item;
+
+SELECT * FROM stock;
+    \end{verbatim}
+    ... and add them together ourselves?  Nah.  Let the database do its job.
+}
+
 \frame
 {
+    \frametitle{So this database walks into a bar...}
     \begin{center}
-    TODO: We need an illustration here:\\
-    INNER vs LEFT vs RIGHT vs CARTESIAN
+    Whiteboard!
+
+    INNER vs LEFT (OUTER) vs RIGHT (OUTER) vs CARTESIAN
     \end{center}
 }
 
 \frame[containsverbatim]
 {
-    \frametitle{JOINs}
-    TODO:  make the join example simpler next time.
-    Compare:
+    \frametitle{...walks up to two tables and says ...}
+    Compare INNER with LEFT JOIN:
     \begin{verbatim}
-SELECT * FROM item;
-SELECT * FROM stock;
-    \end{verbatim}
-
-    With:
-    \begin{verbatim}
-SELECT i.description, i.cost_price, i.sell_price, s.quantity
+SELECT i.description, s.quantity
 FROM item i
 JOIN stock s ON i.item_id = s.item_id;
-    \end{verbatim}
 
-    And:
-    \begin{verbatim}
-SELECT i.description, i.cost_price, i.sell_price, s.quantity
+SELECT i.description, s.quantity
 FROM item i
 LEFT JOIN stock s ON i.item_id = s.item_id;
     \end{verbatim}
+    \small
+    tip:
+    \\pset null '[null]'
+    ...makes the differences more obvious.
 }
 
 \frame[containsverbatim]
 {
+    \frametitle{... "Mind if I JOIN you?"}
+    Look what you can do with the table order:
     \begin{verbatim}
-    \pset null '[null]'
-    \end{verbatim}
-    \begin{center}
-    makes the differences more obvious.
-    \end{center}
-}
-
-\frame[containsverbatim]
-{
-    Compare:
-    \begin{verbatim}
-SELECT i.description, i.cost_price, i.sell_price, s.quantity
+SELECT i.description, s.quantity
 FROM item i
 RIGHT JOIN stock s ON i.item_id = s.item_id;
-    \end{verbatim}
 
-    With:
-    \begin{verbatim}
-SELECT i.description, i.cost_price, i.sell_price, s.quantity
+SELECT i.description, s.quantity
 FROM stock s
 LEFT JOIN item i ON i.item_id = s.item_id;
     \end{verbatim}
@@ -398,10 +394,10 @@ LEFT JOIN item i ON i.item_id = s.item_id;
 SELECT * FROM item;
 SELECT * FROM stock;
 
-SELECT i.description, i.cost_price, i.sell_price, s.quantity
+SELECT i.description, s.quantity
 FROM item i, stock s;
 
-SELECT i.description, i.cost_price, i.sell_price, s.quantity
+SELECT i.description, s.quantity
 FROM item i
 CROSS JOIN stock s;
     \end{verbatim}
@@ -437,7 +433,9 @@ WHERE (fname, lname) = ('Alex','Matthew'));
     \frametitle{VIEWs and TEMP TABLEs}
     \begin{verbatim}
 CREATE VIEW my_view AS SELECT field FROM table;
+
 vs.
+
 CREATE TEMP TABLE my_temp_table AS SELECT field FROM table;
     \end{verbatim}
 }
@@ -538,18 +536,18 @@ SELECT (random() * 100);
 
 \frame
 {
-    \frametitle{Where to get help}
+    \frametitle{Where to get help - online}
     \begin{itemize}
-    \item[-] Postgres Community
+    \item[] Postgres Community
         \begin{itemize}
         \item[-] www.postgresql.org/community/lists/
         \item[-] archives.postgresql.org/pgsql-novice/
         \item[-] \#postgresql
         \end{itemize}
-    \item[-] PDXPUG
+    \item[] PDXPUG
         \begin{itemize}
-            \item[-] \#pdxpug
             \item[-] archives.postgresql.org/pdxpug/
+            \item[-] \#pdxpug
         \end{itemize}
     \end{itemize}
 }
@@ -558,9 +556,12 @@ SELECT (random() * 100);
 {
     \frametitle{PDXPUG}
     \begin{itemize}
-    \item[] Third Thurs, 7pm, FreeGeek
-    \item[] pugs.postgresql.org/pdx
-    \item[] @pdxpug
+    \item[] PDXPUG
+	    \begin{itemize}
+	    \item[-] Third Thurs, 7pm, FreeGeek
+	    \item[-] pugs.postgresql.org/pdx
+	    \item[-] @pdxpug
+	    \end{itemize}
     \end{itemize}
 }
 
