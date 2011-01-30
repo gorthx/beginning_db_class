@@ -2,6 +2,9 @@
 
 \usepackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5]{beamerposter}
 
+% http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+\usepackage{listings}
+
 \usetheme{postgres}
 \setbeamertemplate{items}[circle]
 
@@ -26,7 +29,7 @@
     \item[] PostgreSQL (discussion)
     \item[] psql (hands-on)
     \item[] SQL (hands-on)
-    \item[] ...break somewhere in here, 7:30...
+    \item[] $\ldots$break somewhere in here, 7:30\ldots
     \item[] Practice db + more SQL (hands-on)
     \item[] Basic Admin + GUI Tools (discussion)
     \item[] Questions
@@ -84,19 +87,20 @@
 \frame[containsverbatim]
 {
     \frametitle{Get connected.}
-    \begin{verbatim}
+    \lstset{language=sh}
+    \begin{lstlisting}
 chmod 600 /path/to/id_pdxpug
 ssh -i /path/to/id_pdxpug pdxpug@207.173.203.228
 psql -U [username] -d pdxpug
-    \end{verbatim}
+    \end{lstlisting}
 }
 
-\frame
+\frame[containsverbatim]
 {
     \frametitle{Pg command-line interface}
     \begin{itemize}
     \item[-] psql
-    \item[-] - -help
+    \item[-] \verb!--help!
     \item[-] psql -U [username] -d pdxpug
     \item[-] \textbackslash h
     \item[-] \textbackslash ?
@@ -106,7 +110,7 @@ psql -U [username] -d pdxpug
 
 \frame[containsverbatim]
 {
-  \frametitle{This looks like a good place to talk about...}
+  \frametitle{This looks like a good place to talk about\ldots}
 
   \begin{verbatim}
           __     __
@@ -124,69 +128,75 @@ psql -U [username] -d pdxpug
     \frametitle{SQL}
     \begin{itemize}
     \item[-] Declarative programming language
-    \item[-] ...let's do "Hello World".
+    \item[-] $\ldots$let's do "Hello World".
     \end{itemize}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{Hello, World.}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT 'Hello, World.';
-    \end{verbatim}
-    ...oh yeah, and there's command-completion, too.
+    \end{lstlisting}
+    $\ldots$oh yeah, and there's command-completion, too.
 }
 
 \frame[containsverbatim]
 {
     \frametitle{CREATE TABLE}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 CREATE TABLE animals
 (name varchar(32) primary key,
 skin varchar(32),
 legs int);
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{INSERT}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 INSERT INTO animals
 VALUES ('cat', 'fur', '4');
 
 SELECT * FROM animals;
-    \end{verbatim}
-    ...and a word about syntax...
+    \end{lstlisting}
+    $\ldots$and a word about syntax\ldots
 }
 
 \frame[containsverbatim]
 {
-    \frametitle{What happens if...}
-    \begin{verbatim}
+    \frametitle{What happens if\ldots}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 INSERT INTO animals
 VALUES
 ('centipede', 'chitin', 'too many');
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{multi-valued INSERT}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 INSERT INTO animals
 VALUES
 ('dog', 'fur', 4),
 ('bird', 'feathers', 2),
 ('centipede', 'chitin', 100),
 ('snake', 'scales', 0);
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{SELECT}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT * FROM animals;
 
 SELECT name, legs FROM animals;
@@ -198,52 +208,56 @@ ORDER BY legs DESC;
 SELECT count(*) FROM animals;
 
 SELECT SUM(legs) FROM animals;
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{UPDATE}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 UPDATE animals
 SET name = 'kitty' WHERE name = 'cat';
 
 SELECT * FROM animals;
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
-    \frametitle{What happens if...}
-    \begin{verbatim}
+    \frametitle{What happens if\ldots}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 UPDATE animals
 SET legs = 18;
 
 SELECT * FROM animals;
-    \end{verbatim}
-    ...oops!
+    \end{lstlisting}
+    $\ldots$oops!
 }
 \frame[containsverbatim]
 {
     \frametitle{Transactions}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 BEGIN;
-...do your stuff...
-...check your stuff with a SELECT...
+-- do your stuff...
+-- check your stuff with a SELECT...
 ROLLBACK or COMMIT as desired
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{DELETE}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 BEGIN;
 DELETE FROM animals WHERE legs=2;
 SELECT * FROM animals;
-[ROLLBACK or COMMIT]
+-- [ROLLBACK or COMMIT]
 SELECT * FROM animals;
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame
@@ -260,7 +274,7 @@ SELECT * FROM animals;
 {
     \begin{center}
     MOAR TABLEZ\\
-    www.postgresqlguide.com/postgresql-sample-database.aspx
+    \url{www.postgresqlguide.com/postgresql-sample-database.aspx}
     \end{center}
 }
 
@@ -270,7 +284,7 @@ SELECT * FROM animals;
     \begin{itemize}
     \item[-] Entity-Relationship Diagrams
     \item[-] Graphical representation of the relations
-    \item[-] ...and how they're connected (JOINed)
+    \item[-] $\ldots$and how they're connected (JOINed)
     \end{itemize}
 }
 
@@ -290,10 +304,11 @@ SELECT * FROM animals;
 \frame[containsverbatim]
 {
     \frametitle{Load 'er up!}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 \i /home/pdxpug/create_tables.sql
 \i /home/pdxpug/populate_tables.sql
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame
@@ -311,7 +326,8 @@ SELECT * FROM animals;
 \frame[containsverbatim]
 {
     \frametitle{DISTINCT}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT fname, lname FROM customer
 
 SELECT count(lname) FROM customer;
@@ -319,7 +335,7 @@ SELECT count(lname) FROM customer;
 SELECT DISTINCT lname FROM customer;
 
 SELECT count(DISTINCT(lname)) FROM customer;
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame
@@ -335,17 +351,18 @@ SELECT count(DISTINCT(lname)) FROM customer;
 \frame[containsverbatim]
 {
     \frametitle{Why we need JOINs}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT * FROM item;
 
 SELECT * FROM stock;
-    \end{verbatim}
-    ... and add them together ourselves?  Nah.  Let the database do its job.
+    \end{lstlisting}
+    \ldots and add them together ourselves?  Nah.  Let the database do its job.
 }
 
 \frame
 {
-    \frametitle{So this database walks into a bar...}
+    \frametitle{So this database walks into a bar\ldots}
     \begin{center}
     Whiteboard!
 
@@ -355,9 +372,10 @@ SELECT * FROM stock;
 
 \frame[containsverbatim]
 {
-    \frametitle{...walks up to two tables and says ...}
+    \frametitle{$\ldots$walks up to two tables and says \ldots}
     Compare INNER with LEFT JOIN:
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT i.description, s.quantity
 FROM item i
 JOIN stock s ON i.item_id = s.item_id;
@@ -365,18 +383,19 @@ JOIN stock s ON i.item_id = s.item_id;
 SELECT i.description, s.quantity
 FROM item i
 LEFT JOIN stock s ON i.item_id = s.item_id;
-    \end{verbatim}
+    \end{lstlisting}
     \small
     tip:
     \\pset null '[null]'
-    ...makes the differences more obvious.
+    $\ldots$makes the differences more obvious.
 }
 
 \frame[containsverbatim]
 {
-    \frametitle{... "Mind if I JOIN you?"}
+    \frametitle{\ldots "Mind if I JOIN you?"}
     Look what you can do with the table order:
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT i.description, s.quantity
 FROM item i
 RIGHT JOIN stock s ON i.item_id = s.item_id;
@@ -384,13 +403,14 @@ RIGHT JOIN stock s ON i.item_id = s.item_id;
 SELECT i.description, s.quantity
 FROM stock s
 LEFT JOIN item i ON i.item_id = s.item_id;
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
-    \frametitle{...and now the dreaded Cartesian JOIN}
-    \begin{verbatim}
+    \frametitle{$\ldots$and now the dreaded Cartesian JOIN}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT * FROM item;
 SELECT * FROM stock;
 
@@ -400,7 +420,7 @@ FROM item i, stock s;
 SELECT i.description, s.quantity
 FROM item i
 CROSS JOIN stock s;
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame
@@ -415,7 +435,8 @@ CROSS JOIN stock s;
 \frame[containsverbatim]
 {
     \frametitle{subSELECTs}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT date_placed FROM orderinfo
 WHERE customer_id IN
     (SELECT customer_id FROM customer
@@ -425,32 +446,40 @@ SELECT date_placed FROM orderinfo
 WHERE customer_id IN
 (SELECT customer_id FROM customer
 WHERE (fname, lname) = ('Alex','Matthew'));
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{VIEWs and TEMP TABLEs}
-    \begin{verbatim}
-CREATE VIEW my_view AS SELECT field FROM table;
+    \lstset{language=SQL}
+    \begin{lstlisting}
+CREATE VIEW my_view AS
+SELECT field FROM table;
+    \end{lstlisting}
 
 vs.
 
-CREATE TEMP TABLE my_temp_table AS SELECT field FROM table;
-    \end{verbatim}
+    \begin{lstlisting}
+CREATE TEMP TABLE my_temp_table AS
+SELECT field FROM table;
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{VIEWs and TEMP TABLEs}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 CREATE VIEW view_in_stock AS
 SELECT i.item_id, i.description, s.quantity
 FROM item i
 LEFT JOIN stock s ON i.item_id=s.item_id;
 
 SELECT * FROM view_in_stock;
+    \end{lstlisting}
 
+    \begin{verbatim}
 try:
 \pset null '0'
     \end{verbatim}
@@ -495,7 +524,7 @@ try:
     \item[-] backups and upgrades
         \begin{itemize}
         \item[-] pg\_dump, pg\_dumpall, pg\_upgrade
-        \item[-] ...or replication
+        \item[-] $\ldots$or replication
         \end{itemize}
     \item[-] logs 
     \item[-] TODO:  Memory calculation?  (Selena)
@@ -520,18 +549,20 @@ try:
     \item[-] even more \textbackslash  commands
     \item[-] permissions
     \end{itemize}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 GRANT USAGE ON SCHEMA [schema] TO [otheruser];
 GRANT SELECT ON [table] TO [otheruser];
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame[containsverbatim]
 {
     \frametitle{Book giveaway! Thank you, O'Reilly!}
-    \begin{verbatim}
+    \lstset{language=SQL}
+    \begin{lstlisting}
 SELECT (random() * 100);
-    \end{verbatim}
+    \end{lstlisting}
 }
 
 \frame
@@ -540,13 +571,13 @@ SELECT (random() * 100);
     \begin{itemize}
     \item[] Postgres Community
         \begin{itemize}
-        \item[-] www.postgresql.org/community/lists/
-        \item[-] archives.postgresql.org/pgsql-novice/
+        \item[-] \url{www.postgresql.org/community/lists/}
+        \item[-] \url{archives.postgresql.org/pgsql-novice/}
         \item[-] \#postgresql
         \end{itemize}
     \item[] PDXPUG
         \begin{itemize}
-            \item[-] archives.postgresql.org/pdxpug/
+            \item[-] \url{archives.postgresql.org/pdxpug/}
             \item[-] \#pdxpug
         \end{itemize}
     \end{itemize}
@@ -559,7 +590,7 @@ SELECT (random() * 100);
     \item[] PDXPUG
 	    \begin{itemize}
 	    \item[-] Third Thurs, 7pm, FreeGeek
-	    \item[-] pugs.postgresql.org/pdx
+	    \item[-] \url{pugs.postgresql.org/pdx}
 	    \item[-] @pdxpug
 	    \end{itemize}
     \end{itemize}
@@ -574,7 +605,7 @@ SELECT (random() * 100);
     \item[] \underline{SQL for Smarties} Celko, J
     \item[] \underline{Introduction to Database Systems} Date, CJ
     \item[] \underline{Relational Model for Database Management} Codd, EF
-    \item[] www.postgresql.org/docs
+    \item[] \url{www.postgresql.org/docs}
     \item[] \underline{PostgreSQL 9 Admin Cookbook} Riggs, S \& H Krosing
     \item[] \underline{PostgreSQL 9.0 High Performance} Smith, G
     \end{itemize}
