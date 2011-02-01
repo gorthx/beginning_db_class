@@ -208,6 +208,8 @@ ORDER BY legs DESC;
 SELECT count(*) FROM animals;
 
 SELECT SUM(legs) FROM animals;
+
+SELECT * FROM animals WHERE name LIKE '%pede';
     \end{lstlisting}
 }
 
@@ -385,8 +387,7 @@ FROM item i
 LEFT JOIN stock s ON i.item_id = s.item_id;
     \end{lstlisting}
     \small
-    tip:
-    \\pset null '[null]'
+    tip: \\pset null '[null]'
     $\ldots$makes the differences more obvious.
 }
 
@@ -425,16 +426,18 @@ CROSS JOIN stock s;
 
 \frame
 {
-    \frametitle{Building more complex queries}
-    \begin{itemize}
-    \item[-] with subSELECTs
-    \item[-] using VIEWs and TEMP TABLEs
-    \end{itemize}
+    \frametitle{Exercises:  JOINs}
+    \begin{enumerate}
+    \item How many items are currently in stock?
+    \item In which towns do we have customers?
+    \item What are the barcodes for each item?
+    \item Experiment with RIGHT JOIN with the original sample queries.
+    \end{enumerate}
 }
 
 \frame[containsverbatim]
 {
-    \frametitle{subSELECTs}
+    \frametitle{Building more complex queries: subSELECTs}
     \lstset{language=SQL}
     \begin{lstlisting}
 SELECT date_placed FROM orderinfo
@@ -444,11 +447,20 @@ WHERE customer_id IN
 
 SELECT date_placed FROM orderinfo
 WHERE customer_id IN
-(SELECT customer_id FROM customer
-WHERE (fname, lname) = ('Alex','Matthew'));
+    (SELECT customer_id FROM customer
+    WHERE (fname, lname) = ('Alex','Matthew'));
     \end{lstlisting}
 }
 
+\frame
+{
+    \frametitle{Exercises - subSELECTs}
+    \begin{enumerate}
+    \setcounter{enumi}{4}
+    \item How much was shipping on each order?
+    \item What is the barcode for the "Toothbrush" item(s)?
+    \end{enumerate}
+}
 \frame[containsverbatim]
 {
     \frametitle{VIEWs and TEMP TABLEs}
@@ -479,10 +491,21 @@ LEFT JOIN stock s ON i.item_id=s.item_id;
 SELECT * FROM view_in_stock;
     \end{lstlisting}
 
-    \begin{verbatim}
-try:
-\pset null '0'
-    \end{verbatim}
+    \small
+    try: \\pset null '0'
+}
+
+\frame
+{
+    \frametitle{Exercises - VIEWs, TEMP TABLEs, and bonus questions}
+    \begin{enumerate}
+    \setcounter{enumi}{6}
+    \item How much was the total shipping per person?
+    \item What items were ordered by people with the last name "stones"?
+    \item What is the name + total "our cost" value of each item currently in stock?
+    \item What is the name + total "selling cost" value of each item currently in stock?
+    \item What are the total "our cost" and "sell cost" values of all items in stock?
+    \end{enumerate}
 }
 
 \frame
@@ -492,14 +515,15 @@ try:
     \small
     \item How many items are currently in stock?
     \item In which towns do we have customers?
-    \item Experiment with RIGHT JOIN with the original sample queries.
     \item What are the barcodes for each item?
+    \item Experiment with RIGHT JOIN with the original sample queries.
+    \item How much was shipping on each order?
+    \item What is the barcode for the "Toothbrush" item(s)?
+    \item How much was the total shipping per person?
+    \item What items were ordered by people with the last name "stones"?
     \item What is the name + total "our cost" value of each item currently in stock?
     \item What is the name + total "selling cost" value of each item currently in stock?
     \item What are the total "our cost" and "sell cost" values of all items in stock?
-    \item How much was shipping on each order?
-    \item What items were ordered by people with the last name "Stones"?
-    \item How much was the total shipping per person?
     \end{enumerate}
 }
 
